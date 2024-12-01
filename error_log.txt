@@ -1,0 +1,5 @@
+2024-12-01 20:07:47,462 - ERROR - OpenAI API call failed: The model `gpt-4` does not exist or you do not have access to it.
+2024-12-01 20:07:47,462 - ERROR - Critical error in main process: The model `gpt-4` does not exist or you do not have access to it.
+2024-12-01 20:10:38,652 - ERROR - No such comm target registered: jupyter.widget.control
+2024-12-01 20:12:22,448 - ERROR - OpenAI API call failed: Incorrect API key provided: sk-proj-. You can find your API key at https://platform.openai.com/account/api-keys.
+2024-12-01 20:12:22,449 - ERROR - Critical error in main process: Incorrect API key provided: sk-proj-. You can find your API key at https://platform.openai.com/account/api-keys.
