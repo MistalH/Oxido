@@ -1,6 +1,16 @@
 
 # Witajcie Rekruterzy OXIDO! 👋
 
+## Spis treści
+1. [Opis Projektu](#opis-projektu)
+2. [Jak działa aplikacja?](#jak-działa-aplikacja)
+3. [Koszt przetwarzania promptów](#koszt-przetwarzania-promptów)
+4. [Dlaczego należy wpisać swój klucz API?](#dlaczego-należy-wpisać-swoj-klucz-api)
+5. [Jak uruchomić?](#jak-uruchomić)
+6. [Przykład wygenerowanego HTML](#przykład-wygenerowanego-html)
+7. [Zadanie dodatkowe: Szablon HTML i Podgląd Artykułu](#zadanie-dodatkowe-szablon-html-i-podgląd-artykułu)
+8. [Uwagi końcowe](#uwagi-końcowe)
+
 ## Opis Projektu
 
 W Zadaniu wykorzystuje OpenAI API do przekształcania tekstu z pliku do strukturalnego kodu HTML. 
@@ -90,9 +100,7 @@ Zadanie obejmowało:
    - Gradientowe tło animowane za pomocą CSS.
    - Hover z poświatą dla przycisków i linków.
    - Efekt pojawiania się treści po załadowaniu strony (CSS `@keyframes`).
-
 ---
-
 ## 📋 Instrukcje
 
 ### 1. Plik `szablon.html`
