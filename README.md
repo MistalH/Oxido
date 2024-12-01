@@ -119,4 +119,9 @@ Jest to kompletny podgląd artykułu z pełną treścią. Zawiera:
 
 ---
 
+## Ograniczenia aplikacji
+- Aplikacja **nie generuje pełnych dokumentów HTML** – kod zawiera jedynie zawartość przeznaczoną do umieszczenia między `<body>` i `</body>`.
+- **Nie obsługiwane są style CSS ani skrypty JavaScript.**
+- Wymaga **poprawnego pliku wejściowego w formacie tekstowym** (np. `artykul.txt`).
+- Wymaga **aktywnego połączenia z internetem** do korzystania z API OpenAI.
 
