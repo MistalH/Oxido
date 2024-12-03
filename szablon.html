@@ -1,306 +1,831 @@
 <!DOCTYPE html>
 <html lang="pl">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Podgląd Artykułu</title>
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" rel="stylesheet">
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-        <style>
-    body {
-        font-family: 'Roboto', sans-serif;
-        margin: 0;
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Podgląd Artykułu</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/lightbox2@2.11.4/dist/css/lightbox.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/lightbox2@2.11.4/dist/js/lightbox.min.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
+
+
+
+    <style>
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(-45deg, #0f2027, #203a43, #2c5364, #1b2735);
+    color: #e0e0e0;
+    line-height: 1.6;
+    background-size: 400% 400%;
+    animation: gradientBG 10s ease infinite;
+}
+@keyframes gradientBG {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+.container {
+    max-width: 900px;
+    margin: 20px auto;
+    padding: 20px;
+    background: rgba(30, 30, 30, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.7);
+    border-radius: 8px;
+    border: 1px solid #444;
+}
+.welcome-text {
+        font-size: 1.5rem;
+        font-weight: bold;
+        text-align: center;
+        margin-bottom: 20px;
+        color: #58a6ff;
+    }
+
+    .welcome-text i {
+        margin-right: 10px;
+        font-size: 1.8rem;
+        color: #00d8ff;
+    }
+
+    .feature-list {
+        list-style: none;
         padding: 0;
-        background: linear-gradient(-45deg, #0f2027, #203a43, #2c5364, #1b2735);
-        color: #e0e0e0;
-        line-height: 1.6;
-        background-size: 400% 400%;
-        animation: gradientBG 10s ease infinite;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
     }
-    @keyframes gradientBG {
-        0% {
-            background-position: 0% 50%;
-        }
-        50% {
-            background-position: 100% 50%;
-        }
-        100% {
-            background-position: 0% 50%;
-        }
-    }
-    .container {
-        max-width: 900px;
-        margin: 20px auto;
-        padding: 20px;
-        background: rgba(30, 30, 30, 0.85);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        backdrop-filter: blur(10px);
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.7);
+
+    .feature-list li {
+        display: flex;
+        align-items: center;
+        background: rgba(50, 50, 50, 0.8);
+        padding: 10px 15px;
         border-radius: 8px;
-        border: 1px solid #444;
+        transition: background 0.3s ease, transform 0.3s ease;
     }
-    .welcome-text {
-            font-size: 1.5rem;
-            font-weight: bold;
-            text-align: center;
-            margin-bottom: 20px;
-            color: #58a6ff;
+
+    .feature-list li:hover {
+        background: rgba(70, 70, 70, 0.9);
+        transform: translateY(-5px);
+    }
+
+    .feature-list li i {
+        margin-right: 15px;
+        font-size: 1.5rem;
+        color: #58a6ff;
+    }
+h1, h2 {
+    text-shadow: 0 0 2px #48d6ff, 0 0 5px #58a6ff, 0 0 0px #58a6ff;
+}
+a:hover {
+    text-shadow: 0 0 5px #00d8ff, 0 0 5px #00d8ff;
+}
+
+a {
+    color: #58a6ff;
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: underline;
+}
+blockquote {
+    margin: 20px 0;
+    padding: 10px 20px;
+    background-color: rgba(50, 50, 50, 0.8);
+    border-left: 4px solid #58a6ff;
+    color: #d1d1d1;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 1rem;
+    background: #333;
+    color: #e0e0e0;
+}
+table th, table td {
+    border: 1px solid #555;
+    padding: 10px;
+    text-align: left;
+}
+table th {
+    background-color: #444;
+    color: #58a6ff;
+    font-weight: bold;
+}
+ul {
+    margin: 10px 0;
+    padding-left: 20px;
+}
+ul li {
+    margin-bottom: 5px;
+    color: #d1d1d1;
+}
+a:hover {
+    color: #00d8ff; /* Neonowy efekt */
+    text-decoration: underline;
+}
+table tr:hover {
+    background-color: #3a3a3a;
+}
+
+
+        blockquote {
+            margin: 20px 0;
+            padding: 10px 20px;
+            background-color: #f4f4f4;
+            border-left: 4px solid #ccc;
+            color: #555;
         }
-    
-        .welcome-text i {
-            margin-right: 10px;
-            font-size: 1.8rem;
-            color: #00d8ff;
-        }
-    
-        .feature-list {
-            list-style: none;
-            padding: 0;
+
+        .container {
+    animation: fadeIn 1.2s ease-in-out;
+}
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+button {
+    background: linear-gradient(90deg, #58a6ff, #00d8ff);
+    border: none;
+    padding: 10px 20px;
+    color: #fff;
+    font-size: 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+button:hover {
+    background: linear-gradient(90deg, #00d8ff, #58a6ff);
+}
+#scrollTop {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background: #58a6ff;
+        color: white;
+        border: none;
+        padding: 10px 15px;
+        border-radius: 50%;
+        font-size: 1.5rem;
+        cursor: pointer;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        display: none; /* Domyślnie ukryty */
+        z-index: 1000;
+        transition: background 0.3s ease, transform 0.2s ease;
+    }
+
+    #scrollTop:hover {
+        background: hsl(187, 100%, 30%);
+        transform: scale(1.1); /* Powiększenie przy hover */
+    }
+
+    .button-container {
+            margin: 20px 0;
             display: flex;
-            flex-direction: column;
             gap: 15px;
         }
     
-        .feature-list li {
-            display: flex;
-            align-items: center;
-            background: rgba(50, 50, 50, 0.8);
-            padding: 10px 15px;
-            border-radius: 8px;
-            transition: background 0.3s ease, transform 0.3s ease;
-        }
-    
-        .feature-list li:hover {
-            background: rgba(70, 70, 70, 0.9);
-            transform: translateY(-5px);
-        }
-    
-        .feature-list li i {
-            margin-right: 15px;
-            font-size: 1.5rem;
-            color: #58a6ff;
-        }
-    h1, h2 {
-        text-shadow: 0 0 2px #48d6ff, 0 0 5px #58a6ff, 0 0 0px #58a6ff;
-    }
-    a:hover {
-        text-shadow: 0 0 5px #00d8ff, 0 0 5px #00d8ff;
-    }
-    
-    a {
-        color: #58a6ff;
-        text-decoration: none;
-    }
-    a:hover {
-        text-decoration: underline;
-    }
-    blockquote {
-        margin: 20px 0;
-        padding: 10px 20px;
-        background-color: rgba(50, 50, 50, 0.8);
-        border-left: 4px solid #58a6ff;
-        color: #d1d1d1;
-    }
-    table {
-        width: 100%;
-        border-collapse: collapse;
-        margin: 20px 0;
-        font-size: 1rem;
-        background: #333;
-        color: #e0e0e0;
-    }
-    table th, table td {
-        border: 1px solid #555;
-        padding: 10px;
-        text-align: left;
-    }
-    table th {
-        background-color: #444;
-        color: #58a6ff;
-        font-weight: bold;
-    }
-    ul {
-        margin: 10px 0;
-        padding-left: 20px;
-    }
-    ul li {
-        margin-bottom: 5px;
-        color: #d1d1d1;
-    }
-    a:hover {
-        color: #00d8ff; /* Neonowy efekt */
-        text-decoration: underline;
-    }
-    table tr:hover {
-        background-color: #3a3a3a;
-    }
-    
-    
-            blockquote {
-                margin: 20px 0;
-                padding: 10px 20px;
-                background-color: #f4f4f4;
-                border-left: 4px solid #ccc;
-                color: #555;
-            }
-    
-            .container {
-        animation: fadeIn 1.2s ease-in-out;
-    }
-    @keyframes fadeIn {
-        from {
-            opacity: 0;
-            transform: translateY(20px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-    button {
-        background: linear-gradient(90deg, #58a6ff, #00d8ff);
-        border: none;
-        padding: 10px 20px;
-        color: #fff;
-        font-size: 1rem;
-        border-radius: 5px;
-        cursor: pointer;
-        transition: background 0.3s ease;
-    }
-    button:hover {
-        background: linear-gradient(90deg, #00d8ff, #58a6ff);
-    }
-    #scrollTop {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: #58a6ff;
-            color: white;
+        .primary-button, .secondary-button {
+            padding: 10px 20px;
             border: none;
-            padding: 10px 15px;
-            border-radius: 50%;
-            font-size: 1.5rem;
+            border-radius: 5px;
+            font-size: 1rem;
             cursor: pointer;
+            transition: transform 0.2s ease, background 0.3s ease;
+        }
+    
+        .primary-button {
+            background: linear-gradient(90deg, #58a6ff, #00d8ff);
+            color: white;
+        }
+    
+        .primary-button:hover {
+            background: linear-gradient(90deg, #00d8ff, #58a6ff);
+            transform: scale(1.05);
+        }
+    
+        .secondary-button {
+            background: #444;
+            color: #e0e0e0;
+            border: 1px solid #58a6ff;
+        }
+    
+        .secondary-button:hover {
+            background: #555;
+            color: #00d8ff;
+            transform: scale(1.05);
+        }
+         /* Styl dla navbara */
+         .navbar {
+            background-color: #2c3e50;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-            display: none; 
-            z-index: 1000;
-            transition: background 0.3s ease, transform 0.2s ease;
         }
-    
-        #scrollTop:hover {
-            background: hsl(187, 100%, 30%);
-            transform: scale(1.1); 
+
+        .navbar-brand {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #58a6ff;
+            transition: color 0.3s ease;
         }
-    
-        .button-container {
-                margin: 20px 0;
-                display: flex;
-                gap: 15px;
-            }
-        
-            .primary-button, .secondary-button {
-                padding: 10px 20px;
-                border: none;
-                border-radius: 5px;
-                font-size: 1rem;
-                cursor: pointer;
-                transition: transform 0.2s ease, background 0.3s ease;
-            }
-        
-            .primary-button {
-                background: linear-gradient(90deg, #58a6ff, #00d8ff);
-                color: white;
-            }
-        
-            .primary-button:hover {
-                background: linear-gradient(90deg, #00d8ff, #58a6ff);
-                transform: scale(1.05);
-            }
-        
-            .secondary-button {
-                background: #444;
-                color: #e0e0e0;
-                border: 1px solid #58a6ff;
-            }
-        
-            .secondary-button:hover {
-                background: #555;
-                color: #00d8ff;
-                transform: scale(1.05);
-            }
-             /* Styl dla navbara */
-             .navbar {
-                background-color: #2c3e50;
-                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-            }
-    
-            .navbar-brand {
-                font-size: 1.5rem;
-                font-weight: bold;
-                color: #58a6ff;
-                transition: color 0.3s ease;
-            }
-    
-            .navbar-brand:hover {
-                color: #00d8ff;
-            }
-    
-            .nav-link {
-                color: #e0e0e0;
-                transition: color 0.3s ease;
-            }
-    
-            .nav-link:hover {
-                color: #00d8ff;
-            }
-    
-            .navbar-toggler {
-                border: none;
-            }
-    
-            .navbar-toggler-icon {
-                background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3E%3Cpath stroke='rgba%28255, 255, 255, 0.5%29' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
-            }
-    
-            .active-nav-link {
-                color: #58a6ff !important;
-                font-weight: bold;
-            }
-        </style>
+
+        .navbar-brand:hover {
+            color: #00d8ff;
+        }
+
+        .nav-link {
+            color: #e0e0e0;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: #00d8ff;
+        }
+
+        .navbar-toggler {
+            border: none;
+        }
+
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3E%3Cpath stroke='rgba%28255, 255, 255, 0.5%29' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+        }
+
+        .active-nav-link {
+            color: #58a6ff !important;
+            font-weight: bold;
+        }
+
+        .comment-section {
+    margin: 50px auto;
+    max-width: 600px;
+    padding: 20px;
+    background: rgba(30, 30, 30, 0.85);
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    color: #e0e0e0;
+}
+
+.comment-section h2 {
+    text-align: center;
+    color: #58a6ff;
+}
+
+#comments-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.comment {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+    animation: fadeIn 0.5s ease;
+    padding: 10px;
+    background: rgba(50, 50, 50, 0.8);
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.comment img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #58a6ff;
+    animation: scaleUp 0.3s ease;
+}
+
+.comment-content {
+    flex: 1;
+}
+
+.comment-content p {
+    margin: 0;
+    color: #d1d1d1;
+}
+
+.comment-content span {
+    font-size: 0.9rem;
+    color: #58a6ff;
+}
+
+#load-comments {
+    margin: 20px auto;
+    display: block;
+    padding: 10px 20px;
+    background: linear-gradient(90deg, #58a6ff, #00d8ff);
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+
+#load-comments:hover {
+    background: linear-gradient(90deg, #00d8ff, #58a6ff);
+    transform: scale(1.05);
+}
+
+/* Animacje */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes scaleUp {
+    from {
+        transform: scale(0.8);
+    }
+    to {
+        transform: scale(1);
+    }
+}
+
+.chart-container {
+    margin: 50px auto;
+    max-width: 800px;
+    padding: 20px;
+    background: rgba(30, 30, 30, 0.85);
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    color: #e0e0e0;
+    text-align: center;
+}
+
+.chart-container h2 {
+    color: #58a6ff;
+    margin-bottom: 20px;
+}
+.gallery-container {
+    max-width: 900px;
+    margin: 50px auto;
+    text-align: center;
+    color: #58a6ff;
+}
+
+.gallery {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+}
+
+.gallery a {
+    position: relative;
+    display: inline-block;
+    overflow: hidden;
+    border-radius: 10px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.gallery a:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+}
+
+.gallery img {
+    width: 200px;
+    height: 150px;
+    object-fit: cover;
+    transition: filter 0.3s ease;
+}
+
+/* Filtry CSS */
+.gallery img:hover {
+    filter: brightness(1.1) contrast(1.2) saturate(1.3);
+}
+
+/* Opcjonalne efekty */
+.gallery a:hover::after {
+    content: "Powiększ";
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    color: white;
+    background: rgba(0, 0, 0, 0.7);
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 12px;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.gallery a:hover::after {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.map-container {
+    max-width: 800px;
+    margin: 50px auto;
+    text-align: center;
+    color: #58a6ff;
+}
+
+#map {
+    width: 100%;
+    height: 500px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    margin-top: 20px;
+}
+:root {
+    --background-color: linear-gradient(-45deg, #1b2735, #203a43, #2c5364, #0f2027);
+    --text-color: #e0e0e0;
+}
+
+.light-mode {
+    --background-color: linear-gradient(-45deg, #ffffff, #f0f4f8, #e0e5ec, #ffffff);
+    --text-color: #333333;
+}
+
+body {
+    background: var(--background-color);
+    color: var(--text-color);
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-size: 400% 400%;
+    animation: gradientBG 10s ease infinite;
+    transition: background 0.3s ease, color 0.3s ease;
+}
+
+@keyframes gradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.theme-toggle {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    z-index: 1000;
+}
+
+button {
+    background: #58a6ff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+button:hover {
+    background: #00d8ff;
+}
+
+    </style>
 </head>
-        <!-- Navbar -->
-        <nav class="navbar navbar-expand-lg">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="https://oxido.pl/">OXIDO</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav ms-auto">
-                        <li class="nav-item">
-                            <a class="nav-link active-nav-link" href="#home">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#features">Features</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#pricing">Pricing</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#contact">Contact</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-      <!-- Content Placeholder -->
-      <div style="padding: 100px; text-align: center;">
-        <h1>Zapoznaj się razem z nami w świat AI</h1>
-        <p>Przewiń w dół, aby zobaczyć więcej treści.</p>
+<div class="theme-toggle">
+    <button id="themeSwitcher">Zmień motyw</button>
+</div>
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg">
+    
+    <div class="container-fluid">
+        <a class="navbar-brand" href="https://oxido.pl/">OXIDO</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link active-nav-link" href="#home">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#features">Features</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#pricing">Pricing</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#contact">Contact</a>
+                </li>
+                
+                
+            </ul>
+            
+        </div>
+        
     </div>
     
+</nav>
+
+<!-- Content Placeholder -->
+<div style="padding: 100px; text-align: center;">
+<h1>Zapoznaj się razem z nami w świat AI</h1>
+<p>Przewiń w dół, aby zobaczyć więcej treści.</p>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+<div class="container">
+    <p><i class="fas fa-robot"></i> Witaj w świecie AI!</p>
+    <ul>
+        <li><i class="fas fa-check-circle"></i> Sztuczna Inteligencja</li>
+        <li><i class="fas fa-cloud"></i> Chmura</li>
+        <li><i class="fas fa-wifi"></i> Internet Rzeczy</li>
+    </ul>
+
+    <h1>Przewodnik po Nowoczesnych Technologiach</h1>
+    <p>
+        W dzisiejszych czasach technologia rozwija się w zawrotnym tempie. W tym artykule przyjrzymy się
+        najważniejszym trendom technologicznym, które mają ogromny wpływ na nasze życie i przyszłość.
+    </p>
+
+    <div class="button-container">
+        <button class="primary-button" onclick="showMoreInfo()">Więcej informacji</button>
+        <button class="secondary-button" onclick="location.href='#contact'">Przejdź do kontaktu</button>
+    </div>
+
+    <h2>Najważniejsze Trendy</h2>
+    <ul>
+        <li><strong>Sztuczna Inteligencja (AI)</strong> - automatyzacja i analiza danych na niespotykaną skalę.</li>
+        <li><strong>Internet Rzeczy (IoT)</strong> - połączone urządzenia ułatwiające codzienne życie.</li>
+        <li><strong>5G</strong> - rewolucja w komunikacji mobilnej z ultraszybkim internetem.</li>
+    </ul>
+
+    <h2>Porównanie Technologii</h2>
+    <p>W tabeli poniżej przedstawiono porównanie głównych technologii:</p>
+    <table>
+        <thead>
+            <tr>
+                <th>Technologia</th>
+                <th>Zastosowanie</th>
+                <th>Przykłady</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Sztuczna Inteligencja (AI)</td>
+                <td>Automatyzacja procesów, analiza danych</td>
+                <td>ChatGPT, Tesla Autopilot</td>
+            </tr>
+            <tr>
+                <td>Internet Rzeczy (IoT)</td>
+                <td>Połączone urządzenia</td>
+                <td>Smart Home, inteligentne termostaty</td>
+            </tr>
+            <tr>
+                <td>5G</td>
+                <td>Szybka komunikacja mobilna</td>
+                <td>Streaming 4K, autonomiczne pojazdy</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<script>
+    function showMoreInfo() {
+        alert("Więcej informacji znajdziesz na stronie głównej!");
+    }
+</script>
+<div class="gallery-container">
+<h2>Galeria Zdjęć</h2>
+<div class="gallery">
+    <a href="https://images.unsplash.com/photo-1521747116042-5a810fda9664?fit=crop&w=800&q=80" data-lightbox="gallery" data-title="Zdjęcie 1">
+        <img src="https://images.unsplash.com/photo-1521747116042-5a810fda9664?fit=crop&w=200&q=80" alt="Zdjęcie 1">
+    </a>
+    <a href="https://images.unsplash.com/photo-1518791841217-8f162f1e1131?fit=crop&w=800&q=80" data-lightbox="gallery" data-title="Zdjęcie 2">
+        <img src="https://images.unsplash.com/photo-1518791841217-8f162f1e1131?fit=crop&w=200&q=80" alt="Zdjęcie 2">
+    </a>
+    <a href="https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0?fit=crop&w=800&q=80" data-lightbox="gallery" data-title="Zdjęcie 3">
+        <img src="https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0?fit=crop&w=200&q=80" alt="Zdjęcie 3">
+    </a>
+
+</div>
+</div>
+
+<script>
+    lightbox.option({
+        'resizeDuration': 200,
+        'wrapAround': true,
+        'fadeDuration': 300
+    });
+</script>
+
+
+<div class="chart-container">
+    <h2>Trendy Technologiczne w Czasie Rzeczywistym</h2>
+    <canvas id="realTimeChart" width="400" height="200"></canvas>
+</div>
+<script>
+    // Kontekst dla wykresu
+    const ctx = document.getElementById('realTimeChart').getContext('2d');
+
+    // Dane początkowe
+    const data = {
+        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+        datasets: [{
+            label: 'Popularność technologii',
+            data: [20, 30, 50, 40, 60, 80],
+            borderColor: '#58a6ff',
+            backgroundColor: 'rgba(88, 166, 255, 0.2)',
+            borderWidth: 2,
+            tension: 0.4,
+            fill: true
+        }]
+    };
+
+    // Konfiguracja wykresu
+    const config = {
+        type: 'line',
+        data: data,
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    display: true,
+                    labels: {
+                        color: '#e0e0e0'
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    ticks: {
+                        color: '#e0e0e0'
+                    },
+                    grid: {
+                        color: 'rgba(255, 255, 255, 0.1)'
+                    }
+                },
+                y: {
+                    ticks: {
+                        color: '#e0e0e0'
+                    },
+                    grid: {
+                        color: 'rgba(255, 255, 255, 0.1)'
+                    }
+                }
+            }
+        }
+    };
+
+    // Inicjalizacja wykresu
+    const realTimeChart = new Chart(ctx, config);
+
+    // Funkcja do dynamicznej aktualizacji danych
+    function updateChart() {
+        const newLabel = `M-${Math.floor(Math.random() * 12)}`;
+        const newDataPoint = Math.floor(Math.random() * 100);
+
+        // Dodaj nowe dane
+        realTimeChart.data.labels.push(newLabel);
+        realTimeChart.data.datasets[0].data.push(newDataPoint);
+
+        // Usuń najstarsze dane (aby ograniczyć do 10 punktów)
+        if (realTimeChart.data.labels.length > 10) {
+            realTimeChart.data.labels.shift();
+            realTimeChart.data.datasets[0].data.shift();
+        }
+
+        // Aktualizuj wykres
+        realTimeChart.update();
+    }
+
+    // Aktualizuj dane co 2 sekundy
+    setInterval(updateChart, 2000);
+</script>
+
+<div class="comment-section">
+<h2>Komentarze</h2>
+<div id="comments-container">
+    <!-- Komentarze zostaną tutaj dynamicznie załadowane -->
+</div>
+<button id="load-comments" onclick="loadComments()">Załaduj więcej komentarzy</button>
+</div>
+<script>
+const comments = [
+    { avatar: 'https://i.pravatar.cc/50?img=1', name: 'Anna Kowalska', content: 'Świetny artykuł, bardzo mi pomógł!' },
+    { avatar: 'https://i.pravatar.cc/50?img=2', name: 'Jan Nowak', content: 'Z niecierpliwością czekam na więcej treści!' },
+    { avatar: 'https://i.pravatar.cc/50?img=3', name: 'Robert Burneika', content: 'Bardzo ciekawy temat i świetnie opisany.' },
+    { avatar: 'https://i.pravatar.cc/50?img=4', name: 'Piotr Zieliński', content: 'Podoba mi się forma prezentacji, super!' },
+    { avatar: 'https://i.pravatar.cc/50?img=5', name: 'Monika Szymańska', content: 'Czekam na więcej artykułów o sztucznej inteligencji!' }
+];
+
+let loadedComments = 0;
+
+function loadComments() {
+    const container = document.getElementById('comments-container');
+    const loadCount = 2; // Liczba komentarzy do załadowania na raz
+
+    for (let i = 0; i < loadCount; i++) {
+        if (loadedComments < comments.length) {
+            const comment = comments[loadedComments];
+            const commentElement = document.createElement('div');
+            commentElement.classList.add('comment');
+            commentElement.innerHTML = `
+                <img src="${comment.avatar}" alt="${comment.name}">
+                <div class="comment-content">
+                    <span>${comment.name}</span>
+                    <p>${comment.content}</p>
+                </div>
+            `;
+            container.appendChild(commentElement);
+            loadedComments++;
+        }
+    }
+
+    // Ukryj przycisk, jeśli wszystkie komentarze są załadowane
+    if (loadedComments >= comments.length) {
+        document.getElementById('load-comments').style.display = 'none';
+    }
+}
+</script>
+<div class="map-container">
+<h2>Siedziba firmy Oxido</h2>
+<div id="map"></div>
+</div>
+<script>
+// Inicjalizacja mapy
+const map = L.map('map').setView([50.0619474, 19.9368564], 13); // Kraków
+
+// Dodanie kafelków mapy OpenStreetMap
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    attribution: '© OpenStreetMap'
+}).addTo(map);
+
+// Dodanie markera dla Oxido
+const oxidoMarker = L.marker([50.0619474, 19.9368564]).addTo(map);
+
+// Dodanie informacji o lokalizacji
+oxidoMarker.bindPopup(`
+    <div style="text-align: center;">
+        <h3>Oxido Kraków</h3>
+        <p>Nasza siedziba znajduje się tutaj.</p>
+    </div>
+`);
+
+// Animacja podświetlenia po kliknięciu
+oxidoMarker.on('click', function () {
+    map.setView([50.0619474, 19.9368564], 15, { animate: true });
+});
+
+// Opcjonalne podświetlenie punktu
+oxidoMarker.on('mouseover', function () {
+    oxidoMarker.openPopup();
+});
+</script>
+<script>
+const themeSwitcher = document.getElementById('themeSwitcher');
+const body = document.body;
+
+themeSwitcher.addEventListener('click', () => {
+    body.classList.toggle('light-mode');
+    // Opcjonalne zapisywanie preferencji w localStorage
+    if (body.classList.contains('light-mode')) {
+        localStorage.setItem('theme', 'light');
+    } else {
+        localStorage.setItem('theme', 'dark');
+    }
+});
+
+// Załaduj zapisany motyw
+window.addEventListener('load', () => {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'light') {
+        body.classList.add('light-mode');
+    }
+});
+</script>
+
+
+
+</body>
 <body>
    
 </body>
