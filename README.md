@@ -9,7 +9,14 @@
 5. [Jak uruchomić?](#jak-uruchomić)
 6. [Przykład wygenerowanego HTML](#przykład-wygenerowanego-html)
 7. [Zadanie dodatkowe: Szablon HTML i Podgląd Artykułu](#zadanie-dodatkowe-szablon-html-i-podgląd-artykułu)
+   - [Stylizacja i animacje w CSS](#stylizacja-i-animacje-w-css)
+   - [Podgląd HTML](#podgląd-html)
+   - [Dodatkowe efekty i animacje](#dodatkowe-efekty-i-animacje)
 8. [Uwagi końcowe](#uwagi-końcowe)
+
+   
+---
+
 
 ## Opis Projektu
 
@@ -18,10 +25,17 @@ Projekt posiada odczyt danych z pliku tekstowego z funkcjonalnością generowani
 
 ---
 
+# Oxido - Generowanie HTML z treści artykułów
+
+Aplikacja służy do automatycznego generowania kodu HTML z plików tekstowych zawierających treści artykułów, z wykorzystaniem API OpenAI GPT-4.
+
+---
+
 ## Jak działa aplikacja?
 
 1. **Odczyt artykułu z pliku tekstowego**:
    - Aplikacja odczytuje treść artykułu z pliku `artykul.txt`.
+   - Weryfikowana jest obecność i zawartość pliku, aby uniknąć błędów związanych z brakującymi lub pustymi plikami.
 
 2. **Przygotowanie prompta**:
    - Aplikacja generuje szczegółowy prompt, który zawiera:
@@ -37,31 +51,59 @@ Projekt posiada odczyt danych z pliku tekstowego z funkcjonalnością generowani
    - Model generuje kod HTML zgodnie z podanymi wytycznymi.
 
 4. **Odbiór i zapis wygenerowanego kodu HTML**:
-   - Wygenerowany kod HTML jest zapisywany do pliku `artykul.html` w folderze projektu.
-   - Plik HTML jest gotowy do użycia, np. w przeglądarce internetowej lub jako część strony internetowej.
+   - Wygenerowany kod HTML jest zapisywany do plików `artykul_part_1.html`, `artykul_part_2.html` itd., w zależności od ilości podzielonych fragmentów tekstu.
+   - Każdy plik HTML zawiera semantycznie poprawny kod, gotowy do użycia w przeglądarkach internetowych.
 
 5. **Efekt końcowy**:
    - Otrzymany kod HTML jest sformatowany w sposób przejrzysty i profesjonalny.
    - Miejsca na grafiki są oznaczone tagami `<img>` z atrybutami `src` i `alt`, a pod grafikami znajdują się podpisy (`<figcaption>`).
 
-### Koszt przetwarzania promptów
-- Do obliczenia liczby tokenów wykorzystano narzędzie: [OpenAI Tokenizer](https://platform.openai.com/tokenizer).
-- Koszt jednego prompta dla wersji GPT-4 wynosi około **10 centów**.
 ---
 
-## Dlaczego należy wpisać swój klucz API?
-W miejscu `openai.api_key = '####'` należy wprowadzić swój klucz API, aby umożliwić działanie aplikacji.
+## Koszt przetwarzania promptów
+- Aplikacja generuje kod HTML za pomocą GPT-4. Do obliczenia liczby tokenów wykorzystano narzędzie: [OpenAI Tokenizer](https://platform.openai.com/tokenizer).
+- Koszt jednego prompta dla wersji GPT-4 wynosi około **10 centów**, w zależności od liczby tokenów w treści artykułu.
+
+---
+
+## Wymagania
+
+1. **Klucz API OpenAI**:
+   - W miejscu `openai.api_key = '####'` należy wprowadzić swój klucz API, aby umożliwić działanie aplikacji.
+   - Klucz powinien być przechowywany bezpiecznie, najlepiej w zmiennej środowiskowej.
+
+2. **Zainstalowane zależności**:
+   - Python 3.7+.
+   - Biblioteki: `openai`, `os`, `logging`.
 
 ---
 
 ## Jak uruchomić?
 
-### 1. Sklonuj repozytorium
-Uruchom w terminalu:
-```bash
-git clone <url_repozytorium>
+1. Skopiuj repozytorium na swój komputer:
+   ```bash
+   git clone <URL-repozytorium>
+   cd Oxido
+2. Zainstaluj wymagane biblioteki:
+   ```bash
+   pip install -r requirements.txt
+3.Wprowadź klucz API OpenAI:
+   -Dodaj go jako zmienną środowiskową OPENAI_API_KEY.
+4. Umieść plik tekstowy z artykułem jako artykul.txt w folderze projektu.
+5.Uruchom aplikację:
+     ```bash
+     python Oxido.ipynb
+Znajdź wygenerowane pliki HTML w folderze projektu.
 
-```
+## Funkcje bezpieczeństwa i niezawodności
+- Obsługa błędów:
+     - Aplikacja loguje błędy (np. brakujące pliki, błędne odpowiedzi API) do pliku error_log.txt.
+     - W przypadku braku klucza API aplikacja przerywa działanie z czytelnym komunikatem błędu.
+- Walidacja danych wejściowych:
+   - Sprawdzanie obecności i zawartości pliku artykul.txt.
+- Podział treści na fragmenty:
+   - W celu uniknięcia przekroczenia limitu tokenów w zapytaniu do API, tekst jest automatycznie dzielony na mniejsze części.
+
 # Zadanie Dodatkowe "Szablon HTML i Podgląd Artykułu"
 
 ## 📄 Opis Projektu
@@ -111,12 +153,42 @@ Główne elementy:
 - **Sekcja body**: Pusta przestrzeń gotowa do wklejenia treści artykułu.
 - **Style i animacje**: Całkowicie zintegrowane w `<head>`.
 
-### 2. Plik `podglad.html`
-Jest to kompletny podgląd artykułu z pełną treścią. Zawiera:
-- Wyróżniony wstęp z ikonami dla kluczowych trendów technologicznych.
-- Przyciski "Więcej informacji" i "Przejdź do kontaktu".
-- Tabela z przykładami technologii.
+## 2. Plik `podglad.html`
 
+Jest to kompletny podgląd artykułu w formacie HTML, który prezentuje nowoczesne podejście do prezentacji treści i technologii. Zawiera następujące elementy:
+
+### 1. Wyróżniony wstęp
+- Zastosowano przykuwające uwagę ikony (np. roboty, chmura, IoT) dla kluczowych trendów technologicznych.
+- Wstęp podkreślony jest czytelną typografią i atrakcyjnym gradientowym tłem.
+
+### 2. Interaktywne przyciski
+- **"Więcej informacji"**: Wyświetla komunikat z dalszymi szczegółami artykułu.
+- **"Przejdź do kontaktu"**: Nawiguje do sekcji kontaktowej.
+
+### 3. Tabela technologii
+- Prezentuje najważniejsze technologie w porównawczym formacie tabelarycznym.
+- Nagłówki tabel wyróżnione kolorem, co poprawia czytelność.
+- Dodano podświetlenie wierszy tabeli przy najechaniu kursorem.
+
+### 4. Galeria zdjęć
+- Użyto biblioteki **Lightbox.js** do wyświetlania zdjęć w pełnym rozmiarze po kliknięciu.
+- Dynamiczne efekty hover z subtelnymi powiększeniami i filtrowaniem obrazów.
+
+### 5. Mapa interaktywna
+- Umieszczono mapę z oznaczoną siedzibą firmy Oxido w Krakowie.
+- Po kliknięciu markera mapa płynnie przybliża widok, a popup wyświetla szczegóły lokalizacji.
+
+### 6. Wykres w czasie rzeczywistym
+- Zastosowano bibliotekę **Chart.js** do wizualizacji popularności technologii w dynamicznie zmieniającej się formie wykresu liniowego.
+
+### 7. Sekcja komentarzy
+- Komentarze ładowane dynamicznie z animacją.
+- Każdy komentarz zawiera zdjęcie użytkownika, jego imię oraz treść.
+
+### 8. Przełącznik motywów
+- Możliwość zmiany między trybem ciemnym a jasnym z płynną animacją tła. 
+
+---
 ---
 
 ## Ograniczenia aplikacji
